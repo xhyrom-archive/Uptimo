@@ -22,6 +22,13 @@ app.get("/", async(req, res) => {
   })
 })
 
+app.get("/admin", async(req, res) => {
+  var i = db.get("urls")
+  res.render("admin", {
+    has: i.length
+  })
+})
+
 /* CREATE */
 app.post("/create", async(req, res) => {
   var url = req.body.ur
@@ -38,6 +45,40 @@ app.post("/create", async(req, res) => {
   res.json({
     status: 200,
     message: "URL is added! (" + url + ")"
+  })
+})
+
+app.post("/remove", async(req, res) => {
+  var u = db.get("urls")
+  var url = req.body.ur
+  var key = req.body.key
+
+  if(!url) return res.json({
+    status: 400,
+    error: "Please define url"
+  })
+  if(!key) return res.json({
+    status: 400,
+    error: "Please define key"
+  })
+
+  if(key !== process.env.key) return res.json({error:"Invalid KEY"})
+
+  if (u.indexOf(url) > -1) {
+    var array = db.get("urls");
+    array = array.filter(v => v !== url);
+    db.set("urls", array)
+
+    res.json({
+      status: 200,
+      message: "URL is deleted! (" + url + ")"
+    })
+  return;
+  }
+
+  return res.json({
+    status: 400,
+    error:"URL_NOT_IN_DB"
   })
 })
 
