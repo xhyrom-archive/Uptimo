@@ -47,7 +47,8 @@ app.post("/login", async(req, res) => {
 
   res.render("dashboard", {
     has: i.length,
-    urls: i
+    urls: i,
+    key: pass
   })
 })
 
@@ -88,10 +89,16 @@ app.post("/create", async(req, res) => {
 app.post("/remove", async(req, res) => {
   var u = db.get("urls")
   var url = req.body.ur
+  var key = req.body.key
 
   if(!url) return res.json({
     status: 400,
     error: "Please define url"
+  })
+
+  if(key !== process.env.pass) return res.json({
+    status: 400,
+    error: "Bad key"
   })
 
   if (u.indexOf(url) > -1) {
