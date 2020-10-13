@@ -5,6 +5,7 @@
 🍭 Open-Source uptime script! [Demo](https://uptimo.xhyrom.repl.co/)<br>
 🍬 Database: SQLITE (quick.db)<br>
 🍫 Language: JavaScript, HTML (NodeJS)<br>
+🧁 Start cmd: node index.js<br>
 🍩 Using: <a href="https://dev.hyrousek.tk">BeautifulCSS</a> (I made lol :D)
 
 ### Repl.it 💼
