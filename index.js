@@ -6,7 +6,6 @@ if(!first || first !== "complete") {
   db.push("urls","https://uptime.hyrousek.tk")
   db.set("first","complete")
 }
-
 require("./ping.js")
 
 app.set('view engine', 'ejs')
@@ -41,15 +40,17 @@ app.post("/login", async(req, res) => {
   var name = req.body.name
   var pass = req.body.pass
 
-  if(name !== process.env.name) return res.json({
+  if(name !== process.env.name) return res.render("error", {
+    error: true,
     status: 400,
-    error: "Bad username"
-  })
+    error: "Please check username. Username is bad"
+  }) 
 
-  if(pass !== process.env.pass) return res.json({
+  if(pass !== process.env.pass) return res.render("error", {
+    error: true,
     status: 400,
-    error: "Bad password"
-  })
+    error: "Please check password. Password is bad"
+  }) 
 
   res.render("dashboard", {
     has: i.length,
@@ -73,22 +74,25 @@ app.post("/create", async(req, res) => {
     return true;
   }
 
-  if(isValidUrl(url) !== true) return res.json({
+  if(isValidUrl(url) !== true) return res.render("error", {
+    error: true,
     status: 400,
-    error: "Not valid url"
-  })
+    error: "Please check url. Url is not valid"
+  }) 
 
   if (u.indexOf(url) > -1) {
-    return res.json({
-      status: 400,
-      error:"URL_IN_DB"
-    })
+    return res.render("error", {
+        error: true,
+        status: 400,
+        error: "Please check url. Url is already on db"
+      }) 
   }
 
   db.push("urls",url)
-  res.json({
+  res.render("error", {
+    error: true,
     status: 200,
-    message: "URL is added! (" + url + ")"
+    error: "URL is succesfully added! ("+url+")"
   })
 })
 
@@ -97,32 +101,36 @@ app.post("/remove", async(req, res) => {
   var url = req.body.ur
   var key = req.body.key
 
-  if(!url) return res.json({
+  if(!url) return res.render("error", {
+    error: true,
     status: 400,
-    error: "Please define url"
-  })
+    error: "Please define url."
+  }) 
 
-  if(key !== process.env.pass) return res.json({
+  if(key !== process.env.pass) return res.render("error", {
+    error: true,
     status: 400,
-    error: "Bad key"
-  })
+    error: "Please check key. Key is bad"
+  }) 
 
   if (u.indexOf(url) > -1) {
     var array = db.get("urls");
     array = array.filter(v => v !== url);
     db.set("urls", array)
 
-    res.json({
-      status: 200,
-      message: "URL is deleted! (" + url + ")"
-    })
+    res.render("error", {
+        error: false,
+        status: 200,
+        error: "URL is deleted! (" + url + ")"
+    }) 
   return;
   }
 
-  return res.json({
-    status: 400,
-    error:"URL_NOT_IN_DB"
-  })
+  return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Please check url. Url is not on db"
+    }) 
 })
 
 app.listen(process.env.port || 5000, () => {
