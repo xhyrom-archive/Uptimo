@@ -2,7 +2,7 @@
    <h1>Uptimo</h1>
  </div>
  
-🍭 Open-Source uptime script! [Demo](https://uptimo.xhyrom.repl.co/)<br>
+🍭 Open-Source uptime script! [Demo](https://uptime.hyrousek.tk/)<br>
 🍬 Database: SQLITE (quick.db)<br>
 🍫 Language: JavaScript, HTML (NodeJS)<br>
 🧁 Start cmd: node index.js<br>
