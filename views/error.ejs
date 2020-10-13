@@ -1,0 +1,40 @@
+<!-- Made by Hyro 
+Website: https://hyrousek.tk
+Github: https://github.com/xHyroM
+-->
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <link href="https://dev.hyrousek.tk/css/beautiful.css" rel="stylesheet">
+    <title>Uptimo</title>
+    <link href="https://dev.hyrousek.tk/css/beautiful.css" rel="stylesheet">
+
+  	<meta property="og:title" content="Uptimo">
+    <meta content="Better uptime script!" property="og:description">
+    <meta name="theme-color" content="#eb4034">
+  </head>
+  <style>
+  body {
+    align-items:center;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    justify-content:center;
+    position:absolute;
+    top:0;
+    vertical-align:middle;
+    width:100%
+  }
+  </style>
+  <body class="container center">
+      <h1 class="text ruby bold" style="font-size: 50px;">Uptimo</h1>
+      <h1 class="bold no-margin ruby-text" style="margin-top: -20px;"><%= status %></h1>
+        <p style="margin-top -20px;"><%= error %></p>
+      <div class="buttons">
+        <a href="/" class="button emerald border">Home</a>
+        <a href="#" class="button ruby border" onclick="window.history.go(-1); return false;">Go back</a>
+      </div>
+  </body>
+</html>
