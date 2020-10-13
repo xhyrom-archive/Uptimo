@@ -1,3 +1,3 @@
 <div align="center">
-  Uptimo
-</div>
+   <h1>Uptimo</h1>
+ </div>
