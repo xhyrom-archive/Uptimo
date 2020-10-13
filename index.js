@@ -1,7 +1,13 @@
 const db = require("quick.db")
 const express = require("express")
 const app = express()
+const first = db.get("first")
 require("./ping.js")
+
+if(!first || first !== "complete") {
+  db.push("urls","https://uptime.hyrousek.tk")
+  db.set("first","complete")
+}
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
