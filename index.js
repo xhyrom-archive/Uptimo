@@ -16,7 +16,10 @@ app.use((req, res, next) => {
 
 /* RENDER INDEX */
 app.get("/", async(req, res) => {
-  res.render("index")
+  var i = db.get("urls")
+  res.render("index", {
+    has: i.length
+  })
 })
 
 /* CREATE */
