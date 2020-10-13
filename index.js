@@ -29,6 +29,28 @@ app.get("/admin", async(req, res) => {
   })
 })
 
+/* LOGIN */
+app.post("/login", async(req, res) => {
+  var i = db.get("urls")
+  var name = req.body.name
+  var pass = req.body.pass
+
+  if(name !== process.env.name) return res.json({
+    status: 400,
+    error: "Bad username"
+  })
+
+  if(pass !== process.env.pass) return res.json({
+    status: 400,
+    error: "Bad password"
+  })
+
+  res.render("dashboard", {
+    has: i.length,
+    urls: i
+  })
+})
+
 /* CREATE */
 app.post("/create", async(req, res) => {
   var url = req.body.ur
@@ -51,18 +73,11 @@ app.post("/create", async(req, res) => {
 app.post("/remove", async(req, res) => {
   var u = db.get("urls")
   var url = req.body.ur
-  var key = req.body.key
 
   if(!url) return res.json({
     status: 400,
     error: "Please define url"
   })
-  if(!key) return res.json({
-    status: 400,
-    error: "Please define key"
-  })
-
-  if(key !== process.env.key) return res.json({error:"Invalid KEY"})
 
   if (u.indexOf(url) > -1) {
     var array = db.get("urls");
