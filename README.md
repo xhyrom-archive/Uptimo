@@ -11,7 +11,7 @@
 [![Deploy to Repl.it](https://repl.it/badge/github/xHyroM/uptimo)](https://repl.it/github/xHyroM/uptimo)
 
 ### License
-You have to code Made By Hyro somewhere in the index.html or in that card 
+You have to code "Made By Hyro" somewhere in the index.html or in that card 
 ```
 <!-- Made by Hyro -->
 or 
