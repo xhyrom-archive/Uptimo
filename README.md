@@ -2,7 +2,6 @@
    <h1>Uptimo</h1>
  </div>
  
- ## Getting started 🍭
 Open-Source uptime script! [Demo](https://uptimo.xhyrom.repl.co/)<br>
 Database: SQLITE (quick.db)<br>
 Language: JavaScript, HTML (NodeJS)<br>
