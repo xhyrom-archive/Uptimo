@@ -56,6 +56,21 @@ app.post("/create", async(req, res) => {
   var url = req.body.ur
   var u = db.get("urls")
 
+  function isValidUrl(string) {
+    try {
+      new URL(string);
+    } catch (_) {
+      return false;  
+    }
+
+    return true;
+  }
+
+  if(isValidUrl(url) !== true) return res.json({
+    status: 400,
+    error: "Not valid url"
+  })
+
   if (u.indexOf(url) > -1) {
     return res.json({
       status: 400,
