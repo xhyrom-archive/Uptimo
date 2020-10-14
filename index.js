@@ -41,6 +41,12 @@ app.post("/register", async(req, res) => {
     error: "Account already exists!"
   }) 
 
+  if(name.includes("<" || ">" || "<script>" || "</script>") || encodeURIComponent(name).includes("%3C" || "%3E")) return res.render("error", {
+    error: true,
+    status: 400,
+    error: "Please use normal characters"
+  })
+  
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(pass, salt)
 
