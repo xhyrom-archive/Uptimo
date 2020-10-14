@@ -35,6 +35,7 @@ app.get("/", async(req, res) => {
 
   var name =c.split("<")[0];
   var pass =c.split("<")[1];
+  var realpass =db.get(`account_${name}`).pass
 
   var i = db.get("urls")
   var u = db.all().filter(data => data.ID.startsWith(`account`)).sort((a, b) => b.data - a.data)
@@ -54,11 +55,7 @@ app.get("/", async(req, res) => {
     return res.redirect("/logout")
   }
 
-  const salt = await bcrypt.genSalt(10)
-  const hash = await bcrypt.hash(pass, salt)
-  const match = await bcrypt.compare(pass, acc.pass);
-
-  if(!match) {
+  if(pass !== realpass) {
     return res.redirect("/logout")
   }
   if(acc.ban) {
@@ -166,7 +163,7 @@ app.post("/login", async(req, res) => {
     perms = false
   }
 
-  res.cookie("login", acc.name + "<" + pass);
+  res.cookie("login", acc.name + "<" + acc.pass);
   res.render("dashboard", {
     perms: perms,
     urls: ur,
