@@ -8,37 +8,37 @@ Github: https://github.com/xHyroM
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <link href="https://dev.hyrousek.tk/css/beautiful.css" rel="stylesheet">
-    <title>Uptimo Admin</title>
+    <title>Uptimo</title>
     <link href="https://dev.hyrousek.tk/css/beautiful.css" rel="stylesheet">
-
-  	<meta property="og:title" content="Uptimo Admin">
+    
+  	<meta property="og:title" content="Uptimo">
     <meta content="Better uptime script!" property="og:description">
     <meta name="theme-color" content="#eb4034">
   </head>
   <body class="container">
-    <h1 class="center text ruby bold">Uptimo Admin</h1>
+    <h1 class="center text ruby bold">Uptimo</h1>
     <hr style="opacity: 10%;">
-    <form action="/remove" method="POST" class="form center">
+    <form action="/create" method="POST" class="form center">
       <div class="form control center-object">
         <input required placeholder="https://example.com" name="ur" id="ur" type="url">
       </div>
-      <div class="form control center-object">
-        <input required content="<%= key %>" name="key" id="key" type="password" placeholder="password"></input>
-      </div>
       <div class="buttons">
-        <button type="submit" class="button ruby border">Remove</button>
+        <button type="submit" class="button ruby border">Submit</button>
       </div>
     </form>
 
-    <div class="card center">
-      <% urls.forEach(function(url){ %>
-        <p><%- url %></p>
-      <% }); %>
-    </div>
+    <% if (perms) { %>
+      <div class="card center">
+          <p><%- members %></p>
+      </div>
+      <div class="card center">
+        <p><%- urls %></p>
+      </div>
+    <% } %>
 
     <div class="card center">
       <p>Links: <%= has %><br>
-      <a href="/" style="background: transparent;">Home</a></p>
+      <a href="/admin" style="background: transparent;">Admin Panel</a></p>
       <p>Made by <a href="https://hyrousek.tk" style="background: transparent;">HyRo</a><br>
       Github <a href="https://github.com/xHyroM/Uptimo/" style="background: transparent;">repo</a>
       </p>
