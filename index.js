@@ -1,7 +1,10 @@
 const db = require("quick.db")
 const bcrypt = require('bcrypt')
+const cookieParser = require('cookie-parser');
+
 const express = require("express")
 const app = express()
+
 const first = db.get("first")
 if(!first || first !== "complete") {
   db.push("urls","https://uptime.hyrousek.tk")
@@ -11,6 +14,7 @@ require("./ping.js")
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser());
 
 /* REDIRECT HTTP to HTTPS */
 app.use((req, res, next) => {
@@ -22,13 +26,61 @@ app.use((req, res, next) => {
 
 /* RENDER INDEX */
 app.get("/", async(req, res) => {
+  var c = req.cookies.login
+  if(!c) {
+    return res.render("index", {
+      has: db.get("urls").length
+    })
+  }
+
+  var name =c.split("<")[0];
+  var pass =c.split("<")[1];
+
   var i = db.get("urls")
-  res.render("index", {
-    has: i.length
+  var u = db.all().filter(data => data.ID.startsWith(`account`)).sort((a, b) => b.data - a.data)
+  var ir = 0;
+  var g = "";
+  for (ir in u) {
+    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+  }
+
+  var ur = ""
+  i.forEach(function(url) {
+    ur += `${url} <a style="background: transparent;" href="/r?pass=${pass}&url=${url}">DELETE</a><br>`
+  })
+
+  var acc = db.get(`account_${name}`)
+  if(!acc) {
+    return res.redirect("/logout")
+  }
+
+  const salt = await bcrypt.genSalt(10)
+  const hash = await bcrypt.hash(pass, salt)
+  const match = await bcrypt.compare(pass, acc.pass);
+
+  if(!match) {
+    return res.redirect("/logout")
+  }
+  if(acc.ban) {
+    return res.redirect("/logout")
+  }
+  
+  var perms;
+  if(acc.name === process.env.adminname) {
+    perms = true
+  } else {
+    perms = false
+  }
+
+  res.render("dashboard", {
+    perms: perms,
+    urls: ur,
+    has: i.length,
+    members: g
   })
 })
 
-/* LOGIN */
+/* REGISTER */
 app.post("/register", async(req, res) => {
   var i = db.get("urls")
   var name = req.body.name
@@ -45,8 +97,8 @@ app.post("/register", async(req, res) => {
     error: true,
     status: 400,
     error: "Please use normal characters"
-  })
-  
+  }) 
+
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(pass, salt)
 
@@ -114,12 +166,19 @@ app.post("/login", async(req, res) => {
     perms = false
   }
 
+  res.cookie("login", acc.name + "<" + pass);
   res.render("dashboard", {
     perms: perms,
     urls: ur,
     has: i.length,
     members: g
   })
+})
+
+/* LOGOUT */
+app.get("/logout", async(req, res) => {
+  res.clearCookie("login");
+  res.redirect("/") 
 })
 
 /* CREATE */
