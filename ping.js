@@ -1,18 +1,17 @@
 const db = require("quick.db")
 const axios = require("axios");
+const d = db.get("urls")
 
 setInterval(() => {
-    var d = db.get("urls")
     d.forEach(url => {
-      axios.get(url).then(() => console.log("Ping at " + Date.now() + " ("+url+")")).catch((e) => {
-      console.log("Unable ping " + url)
+      axios.get(url).then(() => console.log("✅ - Succesfully pinged (" + url + ")")).catch((e) => {
+      console.log("📛 - Failed ping (" + url + ")")
       })
     })
 }, 60 * 1000)
 
-var d = db.get("urls")
 d.forEach(url => {
-  axios.get(url).then(() => console.log("Ping at " + Date.now() + " ("+url+")")).catch((e) => {
-  console.log("Unable ping " + url)
+  axios.get(url).then(() => console.log("✅ - Succesfully pinged (" + url + ")")).catch((e) => {
+  console.log("📛 - Failed ping (" + url + ")")
   })
 })
