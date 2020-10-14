@@ -20,8 +20,9 @@ You have to code "Made By Hyro" somewhere in the index.html or in that card
 <!-- Made by Hyro -->
 or 
 <div class="card center">
- <p>Made by <a href="https://hyrousek.tk" style="background: transparent;">HyRo</a><br>
- Github <a href="https://github.com/xHyroM/Uptimo/" style="background: transparent;">repo</a>
- </p>
+   <p>Links: <%= has %><br>
+   <hr>
+   <p>Use uptimer.GQ for 24/7 uptime!</p><br>
+   <p>Ping safely with uptimer.gq NOW!</p>
 </div>
 ```
