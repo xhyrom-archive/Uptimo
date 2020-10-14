@@ -74,7 +74,7 @@ app.post("/create", async(req, res) => {
     return true;
   }
 
-  if(isValidUrl(url) !== true) return res.render("error", {
+  if(isValidUrl(url) !== true || url.includes("<script>" || "<" || ">" || "<html>" || "<style>" || "<button>")) return res.render("error", {
     error: true,
     status: 400,
     error: "Please check url. Url is not valid"
