@@ -12,7 +12,7 @@
 [![Deploy to Repl.it](https://repl.it/badge/github/xHyroM/uptimo)](https://repl.it/github/xHyroM/uptimo)
 <br>
 Quick.db error?<br>
-<b>Fork <a href="https://repl.it/@xHyroM/Uptimo">this</a> project! [FP](https://imgur.com/ASCKbYc.png)</b>
+<b>Fork <a href="https://repl.it/@xHyroM/Uptimo">this</a> project! [![FP](https://imgur.com/ASCKbYc.png)]</b>
 
 ### License
 You have to code "Made By Hyro" somewhere in the index.html or in that card 
