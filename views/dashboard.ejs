@@ -28,17 +28,23 @@ Github: https://github.com/xHyroM
       </div>
     </form>
 
+    <div class="card center">
+      <h2 class="text ruby bold center">Your Urls</h2>
+      <p><%- your %></p>
+    </div>
     <% if (perms) { %>
       <div class="card center">
-          <p><%- members %></p>
+        <h2 class="text ruby bold center">All Users</h2>
+        <p><%- members %></p>
       </div>
       <div class="card center">
+        <h2 class="text ruby bold center">All Urls</h2>
         <p><%- urls %></p>
       </div>
     <% } %>
 
     <div class="card center">
-      <p>Links: <%= has %></p>
+      <p>Links: <%= has %><br>
       <hr style="opacity: 10%">
       <p>Made by <a href="https://hyrousek.tk" style="background: transparent;">HyRo</a><br>
       Github <a href="https://github.com/xHyroM/Uptimo/" style="background: transparent;">repo</a>
