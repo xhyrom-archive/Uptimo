@@ -26,17 +26,6 @@ app.use((req, res, next) => {
   next();
 });
 
-/* RATE LIMITS */
-const { userRateLimitmax , userRateLimitmessage } = require("../config.json")
-
-const addedUrlUserLimit = rateLimit({
-  windowMs: 60 * 60 * 1000,
-  max: userRateLimitmax,
-  message: userRateLimitmessage
-});
-
-
-
 /* API RUN */
 fs.readdirSync(__dirname + '/api').forEach(f => require(`./api/${f}`)(app, db));
 
@@ -194,7 +183,7 @@ app.get("/logout", async(req, res) => {
 })
 
 /* CREATE */
-app.post("/create", addedUrlUserLimit, async(req, res) => {
+app.post("/create", async(req, res) => {
   var url = req.body.ur
   var u = db.get("urls")
   var c = req.cookies.login
