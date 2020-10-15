@@ -35,6 +35,8 @@ const addedUrlUserLimit = rateLimit({
   message: userRateLimitmessage
 });
 
+
+
 /* API RUN */
 fs.readdirSync(__dirname + '/api').forEach(f => require(`./api/${f}`)(app, db));
 
@@ -131,27 +133,26 @@ app.post("/login", async(req, res) => {
   var i = db.get("urls")
   var u = db.all().filter(data => data.ID.startsWith(`account`)).sort((a, b) => b.data - a.data)
 
-  var ir = 0;
-  var g = "";
-  for (ir in u) {
-    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?pass=${req.body.pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?pass=${req.body.pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
-  }
-
-  var ur = ""
-  i.forEach(function(url) {
-    ur += `${url} <a style="background: transparent;" href="/r?pass=${req.body.pass}&url=${url}">DELETE</a><br>`
-  })
-
   var name = req.body.name
   var pass = req.body.pass
   var acc = db.get(`account_${name}`)
-
 
   if(!acc) return res.render("error", {
     error: true,
     status: 400,
     error: "Account not exists"
-  }) 
+  })
+
+  var ir = 0;
+  var g = "";
+  for (ir in u) {
+    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?pass=${acc.pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?pass=${acc.pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+  }
+
+  var ur = ""
+  i.forEach(function(url) {
+    ur += `${url} <a style="background: transparent;" href="/r?pass=${acc.pass}&url=${url}">DELETE</a><br>`
+  })
 
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(pass, salt)
@@ -193,7 +194,7 @@ app.get("/logout", async(req, res) => {
 })
 
 /* CREATE */
-app.post("/create", async(req, res) => {
+app.post("/create", addedUrlUserLimit, async(req, res) => {
   var url = req.body.ur
   var u = db.get("urls")
   var c = req.cookies.login
@@ -222,7 +223,7 @@ app.post("/create", async(req, res) => {
         error: "Please check password. Password is bad"
     })
   }
-  
+
   function isValidUrl(string) {
     try {
       new URL(string);
@@ -265,8 +266,7 @@ app.get("/b", async(req, res) => {
     error: "Please define password."
   })
 
-  const match = await bcrypt.compare(req.query.pass, acc.pass);
-  if(!match) return res.render("error", {
+  if(req.query.pass !== acc.pass) return res.render("error", {
     error: true,
     status: 400,
     error: "Please check password. Password is bad"
@@ -321,8 +321,8 @@ app.get("/r", async(req, res) => {
     status: 400,
     error: "Please define password."
   })
-  const match = await bcrypt.compare(req.query.pass, acc.pass);
-  if(!match) return res.render("error", {
+
+  if(req.query.pass !== acc.pass) return res.render("error", {
     error: true,
     status: 400,
     error: "Please check password. Password is bad"
