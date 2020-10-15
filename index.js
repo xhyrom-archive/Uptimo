@@ -95,7 +95,15 @@ app.get("/", async(req, res) => {
 })
 
 /* REGISTER */
-app.post("/register", async(req, res) => {
+const { registerMax , registerMessage } = require("../config.json")
+
+const registerLimit = rateLimit({
+  windowMs: 86400000,
+  max: 2,
+  message: "Too many accounts added from this IP"
+});
+
+app.post("/register", registerLimit, async(req, res) => {
   var i = db.get("urls")
   var name = req.body.name
   var pass = req.body.pass
@@ -112,13 +120,13 @@ app.post("/register", async(req, res) => {
     status: 400,
     error: "Please define name."
   })
-  
+
   if(!pass) return res.render("error", {
     error: true,
     status: 400,
     error: "Please define pass."
-  }) 
-  
+  })
+
   if(name.includes("<" || ">" || "<script>" || "</script>") || encodeURIComponent(name).includes("%3C" || "%3E")) return res.render("error", {
     error: true,
     status: 400,
@@ -309,7 +317,6 @@ app.get("/b", async(req, res) => {
     status: 400,
     error: "Please check user. User is bad"
   })
-
 
   if(req.query.type === "ban") {
     var old = db.get(`account_${req.query.user}`)
