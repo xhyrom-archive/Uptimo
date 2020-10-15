@@ -113,6 +113,12 @@ app.post("/register", async(req, res) => {
     error: "Please define name."
   })
   
+  if(!pass) return res.render("error", {
+    error: true,
+    status: 400,
+    error: "Please define pass."
+  }) 
+  
   if(name.includes("<" || ">" || "<script>" || "</script>") || encodeURIComponent(name).includes("%3C" || "%3E")) return res.render("error", {
     error: true,
     status: 400,
