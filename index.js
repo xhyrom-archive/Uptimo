@@ -95,12 +95,12 @@ app.get("/", async(req, res) => {
 })
 
 /* REGISTER */
-const { registerMax , registerMessage } = require("../config.json")
+const { registerMax , registerMessage } = require("./config.json")
 
 const registerLimit = rateLimit({
   windowMs: 86400000,
-  max: 2,
-  message: "Too many accounts added from this IP"
+  max: registerMax,
+  message: registerMessage
 });
 
 app.post("/register", registerLimit, async(req, res) => {
