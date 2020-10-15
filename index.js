@@ -273,7 +273,7 @@ app.post("/create", async(req, res) => {
     error: "Please check url. Url is not valid"
   }) 
 
-  if (u.indexOf(url) > -1) {
+  if (u.indexOf(url + "<" + name)) {
     return res.render("error", {
         error: true,
         status: 400,
