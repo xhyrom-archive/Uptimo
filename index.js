@@ -273,12 +273,19 @@ app.post("/create", async(req, res) => {
     error: "Please check url. Url is not valid"
   }) 
 
-  if (u.indexOf(url + "<" + name)) {
+  var ui = [];
+  var ur = ""
+  u.forEach(function(url) {
+    var ugall = url.split("<")[0]
+    ui.push(ugall)
+  })
+
+  if (ui.indexOf(url) > -1) {
     return res.render("error", {
         error: true,
         status: 400,
         error: "Please check url. Url is already on db"
-      }) 
+      })
   }
 
   db.push("urls",url + "<" + name)
@@ -374,7 +381,7 @@ app.get("/r", async(req, res) => {
     res.render("error", {
         error: false,
         status: 200,
-        error: "URL is deleted! (" + req.query.url + ")"
+        error: "URL is deleted! (" + req.query.url.split("<")[0] + ")"
     }) 
   return;
   }
