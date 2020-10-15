@@ -89,7 +89,8 @@ app.get("/", async(req, res) => {
     perms: perms,
     urls: ur,
     has: i.length,
-    members: g
+    members: g,
+    your: urr
   })
 })
 
@@ -194,7 +195,8 @@ app.post("/login", async(req, res) => {
     perms: perms,
     urls: ur,
     has: i.length,
-    members: g
+    members: g,
+    your: urr
   })
 })
 
