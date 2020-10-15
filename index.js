@@ -1,6 +1,8 @@
 const db = require("quick.db")
+const rateLimit = require("express-rate-limit");
 const bcrypt = require('bcrypt')
 const cookieParser = require('cookie-parser');
+const fs = require("fs")
 
 const express = require("express")
 const app = express()
@@ -23,6 +25,18 @@ app.use((req, res, next) => {
 
   next();
 });
+
+/* RATE LIMITS */
+const { userRateLimitmax , userRateLimitmessage } = require("../config.json")
+
+const addedUrlUserLimit = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: userRateLimitmax,
+  message: userRateLimitmessage
+});
+
+/* API RUN */
+fs.readdirSync(__dirname + '/api').forEach(f => require(`./api/${f}`)(app, db));
 
 /* RENDER INDEX */
 app.get("/", async(req, res) => {
