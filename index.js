@@ -107,6 +107,12 @@ app.post("/register", async(req, res) => {
     error: "Account already exists!"
   }) 
 
+  if(!name) return res.render("error", {
+    error: true,
+    status: 400,
+    error: "Please define name."
+  })
+  
   if(name.includes("<" || ">" || "<script>" || "</script>") || encodeURIComponent(name).includes("%3C" || "%3E")) return res.render("error", {
     error: true,
     status: 400,
