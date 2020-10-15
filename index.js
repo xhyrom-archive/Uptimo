@@ -182,7 +182,33 @@ app.get("/logout", async(req, res) => {
 app.post("/create", async(req, res) => {
   var url = req.body.ur
   var u = db.get("urls")
+  var c = req.cookies.login
 
+  if(!c) {
+    return res.render("index", {
+      has: db.get("urls").length
+    })
+  }
+
+  var name = c.split("<")[0];
+  var pass = c.split("<")[1];
+
+  var acc = db.get(`account_${name}`)
+  if(!acc) {
+    return res.render("error", {
+        error: true,
+        status: 400,
+        error: "Please check user. User is bad"
+    })
+  }
+  if(acc.pass != pass) {
+    return res.render("error", {
+        error: true,
+        status: 400,
+        error: "Please check password. Password is bad"
+    })
+  }
+  
   function isValidUrl(string) {
     try {
       new URL(string);
