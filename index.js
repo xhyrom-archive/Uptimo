@@ -2,7 +2,7 @@ const db = require("quick.db")
 const rateLimit = require("express-rate-limit");
 const bcrypt = require('bcrypt')
 const cookieParser = require('cookie-parser');
-const fs = require("fs")
+const fs = require('graceful-fs')
 
 const express = require("express")
 const app = express()
