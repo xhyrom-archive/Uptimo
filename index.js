@@ -173,7 +173,7 @@ app.post("/login", async(req, res) => {
   var ur = ""
   i.forEach(function(url) {
     var ugall = url.split("<")[0]
-    ur += `${ugall} <a style="background: transparent;" href="/r?pass=${pass}&url=${url}">DELETE</a><br>`
+    ur += `${ugall} <a style="background: transparent;" href="/r?pass=${acc.pass}&url=${url}">DELETE</a><br>`
   })
 
   var urr = ""
