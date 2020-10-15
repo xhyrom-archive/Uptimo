@@ -52,7 +52,18 @@ app.get("/", async(req, res) => {
 
   var ur = ""
   i.forEach(function(url) {
-    ur += `${url} <a style="background: transparent;" href="/r?pass=${pass}&url=${url}">DELETE</a><br>`
+    var ugall = url.split("<")[0]
+    ur += `${ugall} <a style="background: transparent;" href="/r?pass=${pass}&url=${url}">DELETE</a><br>`
+  })
+
+  var urr = ""
+  i.forEach(function(url) {
+    var ug = url.split("<")[0]
+    var nug = url.split("<")[1]
+
+    if(name === nug) {
+      urr += `${ug}<br>`
+    }
   })
 
   var acc = db.get(`account_${name}`)
@@ -140,7 +151,18 @@ app.post("/login", async(req, res) => {
 
   var ur = ""
   i.forEach(function(url) {
-    ur += `${url} <a style="background: transparent;" href="/r?pass=${acc.pass}&url=${url}">DELETE</a><br>`
+    var ugall = url.split("<")[0]
+    ur += `${ugall} <a style="background: transparent;" href="/r?pass=${pass}&url=${url}">DELETE</a><br>`
+  })
+
+  var urr = ""
+  i.forEach(function(url) {
+    var ug = url.split("<")[0]
+    var nug = url.split("<")[1]
+
+    if(name === nug) {
+      urr += `${ug}<br>`
+    }
   })
 
   const salt = await bcrypt.genSalt(10)
@@ -237,7 +259,7 @@ app.post("/create", async(req, res) => {
       }) 
   }
 
-  db.push("urls",url)
+  db.push("urls",url + "<" + name)
   res.render("error", {
     error: true,
     status: 200,
