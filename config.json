@@ -1,6 +1,4 @@
 {
   "rateLimitmessage": "Too many urls added from this IP, please try again after an hour",
-  "rateLimitmax": 2,
-  "userRateLimitmessage": "Too many urls added from this IP, please try again after an hour",
-  "userRateLimitmax": 20
+  "rateLimitmax": 2
 }
