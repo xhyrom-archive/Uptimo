@@ -32,7 +32,14 @@ module.exports = async(app, db) => {
       error: "Please check url. Url is not valid"
     })
 
-    if (u.indexOf(url) > -1) {
+    var ui = [];
+    var ur = ""
+    u.forEach(function(url) {
+      var ugall = url.split("<")[0]
+      ui.push(ugall)
+    })
+
+    if (ui.indexOf(url) > -1) {
       return res.json({
           status: 400,
           error: "Please check url. Url is already on db"
