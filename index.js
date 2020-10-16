@@ -182,7 +182,7 @@ app.post("/login", async(req, res) => {
     var nug = url.split("<")[1]
 
     if(name === nug) {
-      urr += `${ug}<br>`
+      urr += `${ug} <a style="background: transparent;" href="/r?d=my&pass=${acc.pass}&url=${url}">DELETE</a><br>`
     }
   })
 
@@ -356,6 +356,72 @@ app.get("/b", async(req, res) => {
 })
 
 app.get("/r", async(req, res) => {
+  if(req.query.d === "my") {
+    const acc = db.get(`account_${req.cookies.login.split("<")[0]}`)
+    if(!acc) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Account not exist"
+    })
+
+    if(!req.query.pass) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Please define password."
+    })
+
+    if(req.query.pass !== acc.pass) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Please check password. Password is bad"
+    })
+
+    if(!req.query.url) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Please define url."
+    })
+
+    if(!req.query.url.includes("<")) return res.render("error", {
+      error: true,
+      status: 400,
+      error: `Url not includes "<"`
+    })
+
+    var ar = []
+    if(req.query.url.includes("<")) {
+      var my = req.query.url.split("<")[1]
+      const u = db.get("urls")
+
+      if(my === acc.name) {
+        if (u.indexOf(req.query.url) > -1) {
+          var array = db.get("urls");
+          array = array.filter(v => v !== req.query.url);
+          db.set("urls", array)
+
+          res.render("error", {
+              error: false,
+              status: 200,
+              error: "URL is deleted! (" + req.query.url.split("<")[0] + ")"
+          }) 
+        return;
+        }
+      } else {
+        return res.render("error", {
+            error: true,
+            status: 400,
+            error: "This url is not added on your account."
+        })
+      }
+    }
+
+    return res.render("error", {
+        error: true,
+        status: 400,
+        error: "Please check url. Url is not on db"
+    }) 
+  }
+
   const acc = db.get(`account_${process.env.adminname}`)
   const u = db.get("urls")
 
