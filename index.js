@@ -226,6 +226,38 @@ app.get("/logout", async(req, res) => {
   res.redirect("/") 
 })
 
+/* RESETPASS */
+app.get("/resetpass", async(req, res) => {
+  var c = req.cookies.login
+
+  if(!c) {
+    return res.render("index", {
+      has: db.get("urls").length
+    })
+  }
+
+  var name = c.split("<")[0];
+  var pass = c.split("<")[1];
+
+  var acc = db.get(`account_${name}`)
+  if(!acc) return res.render("error", {
+    error: true,
+    status: 400,
+    error: "Account not exist"
+  })
+  if(acc.pass != pass) {
+    return res.render("error", {
+        error: true,
+        status: 400,
+        error: "Please check password. Password is bad"
+    })
+  }
+
+  res.render("resetpass", {
+    has: db.get("urls").length
+  })
+})
+
 /* CREATE */
 app.post("/create", async(req, res) => {
   var url = req.body.ur
@@ -467,6 +499,52 @@ app.get("/r", async(req, res) => {
       status: 400,
       error: "Please check url. Url is not on db"
   }) 
+})
+
+/* RESET PASS POST */
+app.post("/rp", async(req, res) => {
+    const acc = db.get(`account_${req.cookies.login.split("<")[0]}`)
+    if(!acc) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Account not exist"
+    })
+
+    if(!req.body.oldpass) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Please define old password."
+    })
+
+    if(!req.body.newpass) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Please define new password."
+    })
+
+
+    const match = await bcrypt.compare(req.body.oldpass, acc.pass);
+
+    if(!match) return res.render("error", {
+      error: true,
+      status: 400,
+      error: "Please check password. Password is bad"
+    })
+
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(req.body.newpass, salt)
+
+    db.set(`account_${req.cookies.login.split("<")[0]}`, {
+      pass: hash,
+      name: acc.name,
+      ban: acc.ban
+    })
+
+    return res.render("error", {
+      error: false,
+      status: 200,
+      error: "Password succesfully changed ("+req.body.newpass+")"
+    }) 
 })
 
 app.listen(process.env.port || 5000, () => {
