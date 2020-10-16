@@ -27,3 +27,18 @@ or
     </p>
 </div>
 ```
+
+### !! WARNING !!
+<b>If you want to ping your project it must contain the npm express plugin and this code:</b>
+```js
+const express = require('express')
+const app = express()
+ 
+app.get('/', function (req, res) {
+  res.send('For pinging')
+})
+ 
+app.listen(process.env.port || 3000, async() => {
+  console.log("Ping website started")
+})
+```
