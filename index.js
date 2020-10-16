@@ -8,7 +8,7 @@ const express = require("express")
 const app = express()
 
 const first = db.get("first")
-if(!first || first !== "complete") {
+if(!first || first !== "complete") {
   db.push("urls","https://uptime.hyrousek.tk")
   db.set("first","complete")
 }
@@ -41,6 +41,7 @@ app.get("/", async(req, res) => {
   var name =c.split("<")[0];
   var pass =c.split("<")[1];
   var acc = db.get(`account_${name}`)
+  var realpass = acc.pass
 
   if(!acc) {
     return res.redirect("/logout")
@@ -53,7 +54,6 @@ app.get("/", async(req, res) => {
     return res.redirect("/logout")
   }
 
-  var realpass = acc.pass
   var i = db.get("urls")
   var u = db.all().filter(data => data.ID.startsWith(`account`)).sort((a, b) => b.data - a.data)
   var ir = 0;
@@ -326,7 +326,7 @@ app.post("/create", async(req, res) => {
   })
 })
 
-/* BAN USER & REMOVE URL */
+/* BAN USER & REMOVE URL */
 app.get("/b", async(req, res) => {
   const acc = db.get(`account_${process.env.adminname}`)
 
@@ -547,6 +547,6 @@ app.post("/rp", async(req, res) => {
     }) 
 })
 
-app.listen(process.env.port || 5000, () => {
+app.listen(process.env.port || 5000, () => {
   console.log("Website started")
 })
