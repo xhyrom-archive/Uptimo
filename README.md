@@ -28,7 +28,7 @@ or
 </div>
 ```
 
-### !! WARNING !!
+### WARNING
 If you want to ping your project it must contain the npm express plugin and this code:
 ```js
 const express = require('express')
