@@ -29,7 +29,7 @@ or
 ```
 
 ### !! WARNING !!
-<b>If you want to ping your project it must contain the npm express plugin and this code:</b>
+If you want to ping your project it must contain the npm express plugin and this code:
 ```js
 const express = require('express')
 const app = express()
