@@ -40,20 +40,32 @@ app.get("/", async(req, res) => {
 
   var name =c.split("<")[0];
   var pass =c.split("<")[1];
-  var realpass =db.get(`account_${name}`).pass
+  var acc = db.get(`account_${name}`)
 
+  if(!acc) {
+    return res.redirect("/logout")
+  }
+
+  if(pass !== realpass) {
+    return res.redirect("/logout")
+  }
+  if(acc.ban) {
+    return res.redirect("/logout")
+  }
+
+  var realpass = acc.pass
   var i = db.get("urls")
   var u = db.all().filter(data => data.ID.startsWith(`account`)).sort((a, b) => b.data - a.data)
   var ir = 0;
   var g = "";
   for (ir in u) {
-    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
   }
 
   var ur = ""
   i.forEach(function(url) {
     var ugall = url.split("<")[0]
-    ur += `${ugall} <a style="background: transparent;" href="/r?pass=${pass}&url=${url}">DELETE</a><br>`
+    ur += `${ugall} <a style="background: transparent;" href="/r?name=${name}&pass=${pass}&url=${url}">DELETE</a><br>`
   })
 
   var urr = ""
@@ -65,18 +77,6 @@ app.get("/", async(req, res) => {
       urr += `${ug}<br>`
     }
   })
-
-  var acc = db.get(`account_${name}`)
-  if(!acc) {
-    return res.redirect("/logout")
-  }
-
-  if(pass !== realpass) {
-    return res.redirect("/logout")
-  }
-  if(acc.ban) {
-    return res.redirect("/logout")
-  }
   
   var perms;
   if(acc.name === process.env.adminname) {
@@ -161,19 +161,19 @@ app.post("/login", async(req, res) => {
   if(!acc) return res.render("error", {
     error: true,
     status: 400,
-    error: "Account not exists"
+    error: "Account not exist"
   })
 
   var ir = 0;
   var g = "";
   for (ir in u) {
-    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?pass=${acc.pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?pass=${acc.pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${acc.name}&pass=${acc.pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${acc.name}&pass=${acc.pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
   }
 
   var ur = ""
   i.forEach(function(url) {
     var ugall = url.split("<")[0]
-    ur += `${ugall} <a style="background: transparent;" href="/r?pass=${acc.pass}&url=${url}">DELETE</a><br>`
+    ur += `${ugall} <a style="background: transparent;" href="/r?name=${acc.name}&pass=${acc.pass}&url=${url}">DELETE</a><br>`
   })
 
   var urr = ""
@@ -242,13 +242,11 @@ app.post("/create", async(req, res) => {
   var pass = c.split("<")[1];
 
   var acc = db.get(`account_${name}`)
-  if(!acc) {
-    return res.render("error", {
-        error: true,
-        status: 400,
-        error: "Please check user. User is bad"
-    })
-  }
+  if(!acc) return res.render("error", {
+    error: true,
+    status: 400,
+    error: "Account not exist"
+  })
   if(acc.pass != pass) {
     return res.render("error", {
         error: true,
@@ -299,6 +297,12 @@ app.post("/create", async(req, res) => {
 /* BAN USER & REMOVE URL */
 app.get("/b", async(req, res) => {
   const acc = db.get(`account_${process.env.adminname}`)
+
+  if(req.query.name !== acc.name) return res.render("error", {
+    error: true,
+    status: 400,
+    error: "Please check name. Name is bad"
+  })
 
   if(!req.query.pass) return res.render("error", {
     error: true,
@@ -355,6 +359,12 @@ app.get("/r", async(req, res) => {
   const acc = db.get(`account_${process.env.adminname}`)
   const u = db.get("urls")
 
+  if(req.query.name !== acc.name) return res.render("error", {
+    error: true,
+    status: 400,
+    error: "Please check name. Name is bad"
+  })
+
   if(!req.query.pass) return res.render("error", {
     error: true,
     status: 400,
@@ -390,7 +400,7 @@ app.get("/r", async(req, res) => {
       error: true,
       status: 400,
       error: "Please check url. Url is not on db"
-    }) 
+  }) 
 })
 
 app.listen(process.env.port || 5000, () => {
