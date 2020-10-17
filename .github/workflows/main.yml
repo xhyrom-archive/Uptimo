@@ -1,31 +1,38 @@
-name: 'Discord Message Notify'
-description: 'Sending a Discord message'
-author: 'Bo-Yi Wu'
-inputs:
-  webhook_id:
-    description: 'discord webhook id'
-    required: true
-  webhook_token:
-    description: 'discord webhook token'
-    required: true
-  message:
-    description: 'the message contents (up to 2000 characters)'
-  file:
-    description: 'the contents of the file being sent'
-  color:
-    description: 'color code of the embed'
-  wait:
-    description: 'waits for server confirmation of message send before response, and returns the created message body'
-  tts:
-    description: 'true if this is a TTS message'
-  username:
-    description: 'override the default username of the webhook'
-  avatar_url:
-    description: 'override the default avatar of the webhook'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
+name: discord message
+on: [push]
+jobs:
 
-branding:
-  icon: 'message-square'
-  color: 'gray-dark'
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: send custom message with args
+      uses: appleboy/discord-action@master
+      with:
+        webhook_id: ${{ secrets.WEBHOOK_ID }}
+        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+        args: The ${{ github.event_name }} event triggered first step.
+
+    - name: send default message
+      uses: appleboy/discord-action@master
+      with:
+        webhook_id: ${{ secrets.WEBHOOK_ID }}
+        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+
+    - name: send color message with custom username
+      uses: appleboy/discord-action@master
+      with:
+        webhook_id: ${{ secrets.WEBHOOK_ID }}
+        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+        color: "#48f442"
+        username: "GitHub Bot"
+        message: "A new commit has been pushed with custom color."
+
+    - name: send file message
+      uses: appleboy/discord-action@master
+      with:
+        webhook_id: ${{ secrets.WEBHOOK_ID }}
+        webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+        file: "./images/message.png"
+        message: "Send Multiple File."
