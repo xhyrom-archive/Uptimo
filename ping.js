@@ -10,28 +10,47 @@ var check = {
 setInterval(() => {
   d.forEach(url => {
     var r = url.split("<")[0]
-    fetch(r).then(() => {
+    fetch(r).then((res) => {
       var status = db.get(`status_${r}`)
-      db.set(`status_${r}`, true)
+      db.set(`status_${r}`, {
+        status: true,
+        statuscode: res.status,
+        statustext: res.statusText
+      })
 
-      console.log(`✅ Succesfully pinged (${r}) | Status: ${check[status]}`)
-    }).catch((e) => {
+      console.log(`✅ Succesfully pinged (${r}) | Status: ${check[status.status]}`)
+    }).catch((res, e) => {
       var status = db.get(`status_${r}`)
-      db.set(`status_${r}`, false)
-      console.log(`📛 Failed ping (${r}) | Status: ${check[status]}`)
+      db.set(`status_${r}`, {
+        status: false,
+        statuscode: res.status,
+        statustext: res.statusText
+      })
+
+      console.log(`📛 Failed ping (${r}) | Status: ${check[status.status]}`)
     })
   })
 }, 60 * 1000)
 
 d.forEach(url => {
   var r = url.split("<")[0]
-  fetch(r).then(() => {
+  fetch(r).then((res) => {
     var status = db.get(`status_${r}`)
-    db.set(`status_${r}`, true)
-    console.log(`✅ Succesfully pinged (${r}) | Status: ${check[status]}`)
-  }).catch((e) => {
+    db.set(`status_${r}`, {
+      status: true,
+      statuscode: res.status,
+      statustext: res.statusText
+    })
+
+    console.log(`✅ Succesfully pinged (${r}) | Status: ${check[status.status]}`)
+  }).catch((res, e) => {
     var status = db.get(`status_${r}`)
-    db.set(`status_${r}`, false)
-    console.log(`📛 Failed ping (${r}) | Status: ${check[status]}`)
+    db.set(`status_${r}`, {
+      status: false,
+      statuscode: res.status,
+      statustext: res.statusText
+    })
+
+    console.log(`📛 Failed ping (${r}) | Status: ${check[status.status]}`)
   })
 })
