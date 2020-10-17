@@ -85,7 +85,7 @@ app.get("/", async(req, res) => {
     }
 
     if(name === nug) {
-      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${pass}&url=${url}">DELETE</a><br><br>`
+      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${pass}&url=${url}">DELETE</a><br>`
     }
   })
   
@@ -200,7 +200,7 @@ app.post("/login", async(req, res) => {
     }
 
     if(name === nug) {
-      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${acc.pass}&url=${url}">DELETE</a><br><br>`
+      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${acc.pass}&url=${url}">DELETE</a><br>`
     }
   })
 
