@@ -42,3 +42,9 @@ app.listen(process.env.port || 3000, async() => {
   console.log("Ping website started")
 })
 ```
+
+### Features
+- Login & Register system
+- Url deletion system
+- Banning, deleting accounts and deleting links system for admins
+- Easy setup
