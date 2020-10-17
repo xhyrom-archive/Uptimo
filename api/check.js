@@ -39,6 +39,8 @@ module.exports = async(app, db) => {
       }
       var status_text = db.get(`status_${url}`).statustext
       var status_code = db.get(`status_${url}`).statuscode
+      if(!status_code) status_code = 503
+      if(!status_text) status_text = "OFF"
 
       return res.json({
         "url": url,
