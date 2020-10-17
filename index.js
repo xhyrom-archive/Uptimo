@@ -59,7 +59,11 @@ app.get("/", async(req, res) => {
   var ir = 0;
   var g = "";
   for (ir in u) {
-    g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+    if(u[ir].ID.split('_')[1] !== process.env.adminname) {
+      g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+    } else {
+      g += `${u[ir].ID.split('_')[1]} | ADMIN<br>`;
+    }
   }
 
   var ur = ""
@@ -73,8 +77,15 @@ app.get("/", async(req, res) => {
     var ug = url.split("<")[0]
     var nug = url.split("<")[1]
 
+    var status = db.get(`status_${ug}`)
+    var check = {
+      true: "✅ Online",
+      false: "❌ Offline",
+      undefined: "⏲️ Please wait 1m to check!"
+    }
+
     if(name === nug) {
-      urr += `${ug}<br>`
+      urr += `${ug} ➜ ${check[status.status]}<br>`
     }
   })
   
