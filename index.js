@@ -377,6 +377,24 @@ app.get("/b", async(req, res) => {
   }
 
   if(req.query.type === "delete") {
+    const u = db.get("urls")
+    var yurl = []
+
+    u.forEach(function(url) {
+      var n = url.split("<")[1]
+      if(n === req.query.user) {
+        yurl.push(url)
+      }
+    })
+
+    yurl.forEach(function(url) {
+      var array = db.get("urls");
+      array = array.filter(v => v !== url);
+      db.set("urls", array)
+      db.delete(`status_${url.split("<")[0]}`)
+    })
+
+    console.log(u)
     db.delete(`account_${req.query.user}`)
 
     return res.render("error", {
