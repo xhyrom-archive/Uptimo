@@ -6,8 +6,10 @@ setInterval(() => {
   d.forEach(url => {
     var r = url.split("<")[0]
     fetch(r).then(() => {
+      db.set(`status_${r}`, true)
       console.log("✅ - Succesfully pinged (" + r + ")")
     }).catch((e) => {
+      db.set(`status_${r}`, false)
       console.log("📛 Failed ping (" + r + ")")
     })
   })
@@ -16,8 +18,10 @@ setInterval(() => {
 d.forEach(url => {
   var r = url.split("<")[0]
   fetch(r).then(() => {
+    db.set(`status_${r}`, true)
     console.log("✅ - Succesfully pinged (" + r + ")")
   }).catch((e) => {
+    db.set(`status_${r}`, false)
     console.log("📛 Failed ping (" + r + ")")
   })
 })
