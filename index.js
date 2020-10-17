@@ -85,7 +85,7 @@ app.get("/", async(req, res) => {
     }
 
     if(name === nug) {
-      urr += `${ug} ➜ ${check[status.status]}<br>`
+      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${pass}&url=${url}">DELETE</a><br><br>`
     }
   })
   
@@ -192,8 +192,15 @@ app.post("/login", async(req, res) => {
     var ug = url.split("<")[0]
     var nug = url.split("<")[1]
 
+    var status = db.get(`status_${ug}`)
+    var check = {
+      true: "✅ Online",
+      false: "❌ Offline",
+      undefined: "⏲️ Please wait 1m to check!"
+    }
+
     if(name === nug) {
-      urr += `${ug} <a style="background: transparent;" href="/r?d=my&pass=${acc.pass}&url=${url}">DELETE</a><br>`
+      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${acc.pass}&url=${url}">DELETE</a><br><br>`
     }
   })
 
