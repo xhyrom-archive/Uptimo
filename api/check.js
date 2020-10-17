@@ -37,9 +37,14 @@ module.exports = async(app, db) => {
         false: "offline",
         undefined: "Please wait to check (1 minute)"
       }
+      var status_text = db.get(`status_${url}`).statustext
+      var status_code = db.get(`status_${url}`).statuscode
 
       return res.json({
-        status: check[status]
+        "url": url,
+        "status": check[status.status],
+        "status_code": status_code,
+        "status_text": status_text
       })
     }
 
