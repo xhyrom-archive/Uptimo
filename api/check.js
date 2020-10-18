@@ -1,3 +1,4 @@
+const path = require("path")
 module.exports = async(app, db) => {
   app.get("/api/check", async(req, res) => {
     if(!req.query.url) return res.json({
@@ -31,6 +32,7 @@ module.exports = async(app, db) => {
     })
 
     if (ui.indexOf(url) > -1) {
+
       var status = db.get(`status_${url}`)
       var check = {
         true: "online",
@@ -41,6 +43,15 @@ module.exports = async(app, db) => {
       var status_code = db.get(`status_${url}`).statuscode
       if(!status_code) status_code = 503
       if(!status_text) status_text = "OFF"
+
+      if(req.query.badge) {
+        res.setHeader('Content-Type', 'image/svg+xml');
+        if(status_code === 200) {
+          return res.sendFile(path.resolve('./badge/upstatus.svg'));
+        } else {
+          return res.sendFile(path.resolve('./badge/downstatus.svg'));
+        }
+      }
 
       return res.json({
         "url": url,
