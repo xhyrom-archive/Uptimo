@@ -78,6 +78,11 @@ app.get("/", async(req, res) => {
     var nug = url.split("<")[1]
 
     var status = db.get(`status_${ug}`)
+    if(!status) {
+      db.set(`status_${ug}, {
+         status: undefined
+      })
+    }
     var check = {
       true: "✅ Online",
       false: "❌ Offline",
@@ -193,6 +198,11 @@ app.post("/login", async(req, res) => {
     var nug = url.split("<")[1]
 
     var status = db.get(`status_${ug}`)
+    if(!status) {
+      db.set(`status_${ug}, {
+         status: undefined
+      })
+    }
     var check = {
       true: "✅ Online",
       false: "❌ Offline",
