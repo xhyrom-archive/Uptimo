@@ -532,7 +532,7 @@ app.get("/r", async(req, res) => {
     var array = db.get("urls");
     array = array.filter(v => v !== req.query.url);
     db.set("urls", array)
-    db.delete(`status_${req.query.url.split("<")[0]}`)
+    db.delete(`status_${req.query.url.split("<")[0].split(".")[0]}`)
 
     res.render("error", {
         error: false,
