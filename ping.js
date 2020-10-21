@@ -1,6 +1,5 @@
 const db = require("quick.db")
 const fetch = require("node-fetch")
-const d = db.get("urls")
 
 var check = {
   true: "online",
@@ -8,6 +7,7 @@ var check = {
 }
 
 setInterval(() => {
+  const d = db.get("urls")
   d.forEach(url => {
     var r = url.split("<")[0]
     fetch(r).then((res) => {
@@ -32,6 +32,7 @@ setInterval(() => {
   })
 }, 60 * 1000)
 
+const d = db.get("urls")
 d.forEach(url => {
   var r = url.split("<")[0]
   fetch(r).then((res) => {
