@@ -65,7 +65,7 @@ app.get("/", async(req, res) => {
   var g = "";
   for (ir in u) {
     if(u[ir].ID.split('_')[1] !== process.env.adminname) {
-      g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+      g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=unban">UNBAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
     } else {
       g += `${u[ir].ID.split('_')[1]} | ADMIN<br>`;
     }
@@ -233,7 +233,7 @@ app.post("/login", async(req, res) => {
   if(acc.ban) return res.render("error", {
     error: true,
     status: 400,
-    error: "Your account disabled :("
+    error: "Your account is disabled :("
   })
 
   var perms;
@@ -406,6 +406,20 @@ app.get("/b", async(req, res) => {
         error: false,
         status: 200,
         error: "User succesfully banned!"
+    })
+  }
+   if(req.query.type === "unban") {
+    var old = db.get(`account_${req.query.user}`)
+    db.set(`account_${req.query.user}`, {
+      pass: old.pass,
+      name: old.name,
+      ban: false
+    })
+
+    return res.render("error", {
+        error: false,
+        status: 200,
+        error: "User succesfully unbanned!"
     })
   }
 
