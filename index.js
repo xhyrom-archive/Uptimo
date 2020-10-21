@@ -29,6 +29,11 @@ app.use((req, res, next) => {
 /* API RUN */
 fs.readdirSync(__dirname + '/api').forEach(f => require(`./api/${f}`)(app, db));
 
+app.get('/badge', function(req, res) {
+  res.setHeader('Content-Type', 'image/svg+xml');
+  res.sendFile(__dirname + '/upstatus.svg');
+});
+
 /* RENDER INDEX */
 app.get("/", async(req, res) => {
   var c = req.cookies.login
@@ -79,8 +84,8 @@ app.get("/", async(req, res) => {
 
     var status = db.get(`status_${ug}`)
     if(!status) {
-      db.set(`status_${ug}, {
-         status: undefined
+      db.set(`status_${ug}`, {
+        status: undefined
       })
     }
     var check = {
@@ -199,8 +204,8 @@ app.post("/login", async(req, res) => {
 
     var status = db.get(`status_${ug}`)
     if(!status) {
-      db.set(`status_${ug}, {
-         status: undefined
+      db.set(`status_${ug}`, {
+        status: undefined
       })
     }
     var check = {
@@ -532,7 +537,7 @@ app.get("/r", async(req, res) => {
     var array = db.get("urls");
     array = array.filter(v => v !== req.query.url);
     db.set("urls", array)
-    db.delete(`status_${req.query.url.split("<")[0].split(".")[0]}`)
+    db.delete(`status_${req.query.url.split("<")[0]}`)
 
     res.render("error", {
         error: false,
