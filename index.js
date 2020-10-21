@@ -65,7 +65,11 @@ app.get("/", async(req, res) => {
   var g = "";
   for (ir in u) {
     if(u[ir].ID.split('_')[1] !== process.env.adminname) {
-      g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=unban">UNBAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+      if(u[ir].data.split(",")[2].split("}")[0].split(":")[1] !== "false") {
+        g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=unban">UNBAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+      } else {
+        g += `${u[ir].ID.split('_')[1]} <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${name}&pass=${pass}&user=${u[ir].ID.split('_')[1]}&type=delete">DELETE</a><br>`;
+      }
     } else {
       g += `${u[ir].ID.split('_')[1]} | ADMIN<br>`;
     }
