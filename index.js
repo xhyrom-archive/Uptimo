@@ -87,11 +87,13 @@ app.get("/", async(req, res) => {
     var nug = url.split("<")[1]
 
     var status = db.get(`status_${ug}`)
-    if(!status) {
-      db.set(`status_${ug}`, {
-        status: undefined
-      })
+    if(status === undefined || !status) {
+      if(name === nug) {
+        urr += `${ug} ➜ ⏲️ Please wait 1m to check! | <a style="background: transparent;" href="/r?d=my&pass=${pass}&url=${url}">DELETE</a><br>`
+      }
+      return;
     }
+
     var check = {
       true: "✅ Online",
       false: "❌ Offline",
@@ -207,11 +209,13 @@ app.post("/login", async(req, res) => {
     var nug = url.split("<")[1]
 
     var status = db.get(`status_${ug}`)
-    if(!status) {
-      db.set(`status_${ug}`, {
-        status: undefined
-      })
+    if(status === undefined || !status) {
+      if(name === nug) {
+        urr += `${ug} ➜ ⏲️ Please wait 1m to check! | <a style="background: transparent;" href="/r?d=my&pass=${pass}&url=${url}">DELETE</a><br>`
+      }
+      return;
     }
+
     var check = {
       true: "✅ Online",
       false: "❌ Offline",
@@ -219,7 +223,7 @@ app.post("/login", async(req, res) => {
     }
 
     if(name === nug) {
-      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${acc.pass}&url=${url}">DELETE</a><br>`
+      urr += `${ug} ➜ ${check[status.status]} | <a style="background: transparent;" href="/r?d=my&pass=${pass}&url=${url}">DELETE</a><br>`
     }
   })
 
