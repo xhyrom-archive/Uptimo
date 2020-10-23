@@ -34,6 +34,15 @@ module.exports = async(app, db) => {
     if (ui.indexOf(url) > -1) {
 
       var status = db.get(`status_${url}`)
+      if(status === undefined || !status) {
+        return res.json({
+          "url": url,
+          "status": "⏲️ Please wait 1m to check!",
+          "status_code": "400",
+          "status_text": "WAIT_1M"
+        })
+      }
+
       var check = {
         true: "online",
         false: "offline",
