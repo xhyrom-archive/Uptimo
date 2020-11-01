@@ -1,5 +1,5 @@
 const db = require("quick.db")
-const fetch = require("node-fetch")
+const axios = require("axios")
 
 var check = {
   true: "online",
@@ -10,7 +10,8 @@ setInterval(() => {
   const d = db.get("urls")
   d.forEach(url => {
     var r = url.split("<")[0]
-    fetch(r).then((res) => {
+
+    axios.get(r).then((res) => {
       var status = db.get(`status_${r}`)
       db.set(`status_${r}`, {
         status: true,
@@ -35,7 +36,7 @@ setInterval(() => {
 const d = db.get("urls")
 d.forEach(url => {
   var r = url.split("<")[0]
-  fetch(r).then((res) => {
+  axios.get(r).then((res) => {
     var status = db.get(`status_${r}`)
     db.set(`status_${r}`, {
       status: true,
