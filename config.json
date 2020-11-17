@@ -1,6 +1,0 @@
-{
-  "rateLimitmessage": "Too many urls added from this IP, please try again after an hour",
-  "rateLimitmax": 3,
-  "registerMax": 2,
-  "registerMessage": "Too many accounts added from this IP"
-}
