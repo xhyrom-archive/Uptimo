@@ -33,7 +33,7 @@ module.exports = async(app, db) => {
 
     if (ui.indexOf(url) > -1) {
 
-      var status = db.get(`status_${url}`)
+      var status = await db.get(`status_${url}`)
       if(status === undefined || !status) {
         return res.json({
           "url": url,
@@ -48,15 +48,11 @@ module.exports = async(app, db) => {
         false: "offline",
         undefined: "Please wait to check (1 minute)"
       }
-      var status_text = db.get(`status_${url}`).statustext
-      var status_code = db.get(`status_${url}`).statuscode
-      if(!status_code) status_code = 503
-      if(!status_text) status_text = "OFF"
 
       if(req.query.badge) {
 
         res.setHeader('Content-Type', 'image/svg+xml');
-        if(status_code === 200) {
+        if(status.statuscode === 200) {
           return res.sendFile(path.resolve('./badge/upstatus.svg'));
         } else {
           return res.sendFile(path.resolve('./badge/downstatus.svg'));
@@ -66,8 +62,8 @@ module.exports = async(app, db) => {
       return res.json({
         "url": url,
         "status": check[status.status],
-        "status_code": status_code,
-        "status_text": status_text
+        "status_code": status.statuscode,
+        "status_text": status.statustext
       })
     }
 
