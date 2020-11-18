@@ -60,7 +60,7 @@ app.get("/", async(req, res) => {
     if(u[ir].data.name !== process.env.adminname) {
       g += `${u[ir].data.name} <a style="background: transparent;" href="/b?name=${acc.name}&pass=${acc.pass}&user=${u[ir].data.name}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${acc.name}&pass=${acc.pass}&user=${u[ir].data.name}&type=delete">DELETE</a><br>`;
     } else {
-      g += `${u[ir].data.name} | ADMIN`;
+      g += `${u[ir].data.name} | ADMIN<br>`;
     }
   }
 
@@ -191,7 +191,7 @@ app.post("/login", async(req, res) => {
     if(u[ir].data.name !== process.env.adminname) {
       g += `${u[ir].data.name} <a style="background: transparent;" href="/b?name=${acc.name}&pass=${acc.pass}&user=${u[ir].data.name}&type=ban">BAN</a> | <a style="background: transparent;" href="/b?name=${acc.name}&pass=${acc.pass}&user=${u[ir].data.name}&type=delete">DELETE</a><br>`;
     } else {
-      g += `${u[ir].data.name} | ADMIN`;
+      g += `${u[ir].data.name} | ADMIN<br>`;
     }
   }
 
