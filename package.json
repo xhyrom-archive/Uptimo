@@ -1,0 +1,31 @@
+{
+  "name": "Uptimo",
+  "version": "1.0.0",
+  "description": "Open-Source uptime script!",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm install",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xHyroM/Uptimo.git"
+  },
+  "keywords": [],
+  "author": "xHyroM",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xHyroM/Uptimo/issues"
+  },
+  "homepage": "https://github.com/xHyroM/Uptimo#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
+    "delay": "^5.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.5",
+    "graceful-fs": "^4.2.6",
+    "quickmongo": "^3.0.0"
+  }
+}
