@@ -22,8 +22,8 @@
     "type": "git",
     "url": "git+https://github.com/xHyroM/Uptimo.git"
   },
-  "author": "Navaneeth K M",
-  "license": "GPL-3.0-or-later",
+  "author": "xHyroM",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/xHyroM/Uptimo/issues"
   },
