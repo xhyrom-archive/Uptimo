@@ -3,7 +3,7 @@
  </div>
  
 🍭 Open-Source uptime script! [Demo](https://uptime.hyrousek.tk/)<br>
-🍬 Database: SQLITE (quick.db)<br>
+🍬 Database: MongoDB (quickmongo)<br>
 🍫 Language: JavaScript, HTML (NodeJS)<br>
 🧁 Start cmd: node index.js<br>
 🍩 Using: <a href="https://dev.hyrousek.tk">BeautifulCSS</a> (I made lol :D)
