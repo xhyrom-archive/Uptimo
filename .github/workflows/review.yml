@@ -8,6 +8,6 @@ jobs:
       - name: Review
         uses: Garlic-Team/Auto-Review@1.0.3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TEST }}
           EVENT_TYPE: APPROVE
           MESSAGE: 'Everything is fine.'
