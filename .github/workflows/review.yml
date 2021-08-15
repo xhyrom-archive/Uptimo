@@ -10,4 +10,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EVENT_TYPE: APPROVE
-          MESSAGE: 'Good Job'
+          MESSAGE: 'Everything is fine.'
