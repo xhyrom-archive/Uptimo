@@ -7,7 +7,7 @@ var check = {
 }
 
 setInterval(() => {
-  const d = db.get("urls")
+  const d = db.get("urls");
   d.forEach(url => {
     var r = url.split("<")[0]
 
