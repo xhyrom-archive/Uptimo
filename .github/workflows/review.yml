@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Review
-        uses: Garlic-Team/Auto-Review@1.0.2
+        uses: Garlic-Team/Auto-Review@1.0.3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EVENT_TYPE: APPROVE
