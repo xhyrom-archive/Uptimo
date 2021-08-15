@@ -1,5 +1,5 @@
-const db = require("quick.db")
-const axios = require("axios")
+const db = require("quick.db");
+const axios = require("axios");
 
 var check = {
   true: "online",
