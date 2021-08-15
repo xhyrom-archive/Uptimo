@@ -2,6 +2,7 @@
    <h1>Uptimo</h1>
  </div>
  
+ Check https://github.com/xHyroM/Uptimo/issues/17
 🍭 Open-Source uptime script! [Demo](https://uptime.hyrousek.tk/)<br>
 🍬 Database: SQLITE (quick.db) and MongoDB<br>
 🍫 Language: JavaScript, HTML (NodeJS)<br>
