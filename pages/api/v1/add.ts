@@ -40,7 +40,9 @@ async function handler(
         return;
     }
 
-    if (!(await hyttpo.get(body.url)).data.includes('uptimo-pinging')) {
+    const webData = await hyttpo.get(body.url).catch(e => e);
+
+    if (!webData.data.includes('uptimo-pinging')) {
         res.status(400).json({
             message: 'Please add <!-- uptimo-pinging --> to your site.'
         })

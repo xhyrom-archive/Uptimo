@@ -3,7 +3,6 @@ import { getSession } from 'next-auth/react';
 import Header from '../components/header';
 import styles from '../styles/Home.module.css';
 import ListUrls from '../components/listurls';
-import hyttpo from 'hyttpo';
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context)

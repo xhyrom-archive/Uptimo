@@ -1,7 +1,6 @@
 import hyttpo from 'hyttpo';
 import { createRef, LegacyRef, useEffect, useState } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
-import Link from 'next/link';
 import { useSession } from "next-auth/react"
 
 export default function Form() {
@@ -55,9 +54,7 @@ export default function Form() {
             {session && (
                 <>
                     { !infoAlert.nothing ? <div className="notification is-primary is-light">
-                    { infoAlert.url ? 
-                    <><Link href={infoAlert.url}><a>Download: {infoAlert.url}</a></Link><br /><Link href={infoAlert.deleteUrl}><a>Delete: {infoAlert.deleteUrl}</a></Link></>
-                    : infoAlert.message }
+                    { infoAlert.message }
                     </div> : '' } 
 
                     <form className="box" onSubmit={handleSubmit} id='addUrlForm'>
