@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/index.js"
+    "start": "cross-env NODE_ENV=production node dist/server/index.js"
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.0.1",
@@ -14,6 +14,7 @@
     "mongodb": "^4.2.2",
     "next": "12.0.7",
     "next-auth": "^4.0.5",
+    "next-secure-headers": "^2.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-google-recaptcha": "^2.1.0",
